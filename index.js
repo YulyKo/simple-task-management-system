@@ -36,6 +36,8 @@ const addBook = (request, response) => {
   )
 }
 
+app.route('/').get('./templates/index.html')
+
 app
   .route('/books')
   // GET endpoint
