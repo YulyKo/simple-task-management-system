@@ -1,6 +1,8 @@
 const express = require('express')
 const bodyParser = require('body-parser')
 const cors = require('cors')
+const path = require('path');
+const fsp = require('fs').promises;
 const {pool} = require('./config')
 
 const app = express()
@@ -40,7 +42,17 @@ app
   // POST endpoint
   .post(addBook)
 
+async function boot() {
+    const seedsSQL = (
+      await fsp.readFile(
+        path.join(process.cwd(), 'init.sql')
+      )
+    ).toString();
+  await pool.query(seedsSQL);
+  app.listen(process.env.PORT || 3002, () => {
+    console.log(`Server listening`)
+  })
+}
+
 // Start server
-app.listen(process.env.PORT || 3002, () => {
-  console.log(`Server listening`)
-})
+boot();
