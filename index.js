@@ -5,7 +5,6 @@ const path = require('path');
 const fsp = require('fs').promises;
 const {pool} = require('./config')
 
-
 const app = express()
 
 app.use(bodyParser.json())
@@ -36,8 +35,6 @@ const addBook = (request, response) => {
   )
 }
 
-app.route('/').get('./templates/index.html')
-
 app
   .route('/books')
   // GET endpoint
@@ -57,6 +54,5 @@ async function boot() {
   })
 }
 
-boot();
-
 // Start server
+boot();
