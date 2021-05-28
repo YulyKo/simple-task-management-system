@@ -1,5 +1,5 @@
 {
-  "name": "todo-list",
+  "name": "simple-task-management-system",
   "version": "1.0.0",
   "description": "application for check tasks status",
   "main": "index.js",
