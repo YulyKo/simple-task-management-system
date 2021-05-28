@@ -1,11 +1,11 @@
-CREATE TABLE "users" (
-  "email" varchar(255) NOT NULL,
-  "password" varchar(255) NOT NULL,
-  "username" varchar(100) NOT NULL,
+CREATE TABLE IF NOT EXISTS "users" (
+  "email" VARCHAR(255) PRIMARY KEY NOT NULL,
+  "password" VARCHAR(255) NOT NULL,
+  "username" VARCHAR(100) NOT NULL,
   "confirmeAt" boolean
 );
 
-CREATE TABLE "tasks" (
+CREATE TABLE IF NOT EXISTS tasks (
   "id" SERIAL PRIMARY KEY,
   "title" varchar(255) NOT NULL,
   "description" varchar(1255) NOT NULL,
@@ -15,11 +15,11 @@ CREATE TABLE "tasks" (
   "isArcived" boolean
 );
 
-CREATE TABLE "user_taks" (
-  "userEmail" int NOT NULL,
+CREATE TABLE IF NOT EXISTS "user_tasks" (
+  "userEmail" VARCHAR(255) NOT NULL,
   "taskId" int NOT NULL
 );
 
-ALTER TABLE "user_taks" ADD FOREIGN KEY ("taskId") REFERENCES "tasks" ("id");
+ALTER TABLE "user_tasks" ADD FOREIGN KEY ("taskId") REFERENCES "tasks" ("id");
 
-ALTER TABLE "user_taks" ADD FOREIGN KEY ("userEmail") REFERENCES "users" ("email");
+ALTER TABLE "user_tasks" ADD FOREIGN KEY ("userEmail") REFERENCES "users" ("email");
