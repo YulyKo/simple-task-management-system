@@ -4,6 +4,7 @@ const cors = require('cors')
 const path = require('path');
 const fsp = require('fs').promises;
 const {pool} = require('./config')
+const router = require('./router');
 
 const app = express()
 
@@ -11,41 +12,12 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended: true}))
 app.use(cors())
 
-const getBooks = (request, response) => {
-  pool.query('SELECT * FROM tasks', (error, results) => {
-    if (error) {
-      throw error
-    }
-    response.status(200).json(results.rows)
-  })
-}
-
-const addBook = (request, response) => {
-  const {author, title} = request.body
-
-  pool.query(
-    'INSERT INTO tasks (author, title) VALUES ($1, $2)',
-    [author, title],
-    (error) => {
-      if (error) {
-        throw error
-      }
-      response.status(201).json({status: 'success', message: 'Taks added.'})
-    },
-  )
-}
-
-app
-  .route('/tasks')
-  // GET endpoint
-  .get(getBooks)
-  // POST endpoint
-  .post(addBook)
+app.use('/tasks', router);
 
 async function boot() {
     const seedsSQL = (
       await fsp.readFile(
-        path.join(process.cwd(), 'init.sql')
+        path.join(process.cwd(), 'scripts', 'init.sql')
       )
     ).toString();
   await pool.query(seedsSQL);
