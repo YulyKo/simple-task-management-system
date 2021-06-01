@@ -23,11 +23,10 @@ module.exports = {
   production: {
     client: 'postgresql',
     connection: {
-      host: config.DBHOST,
-      port: config.DBPORT,
-      database: config.DBNAME,
-      user: config.DBUSER,
-      password: config.DBPASSWORD || '',
+      connectionString: config.DATABASE_URL,
+      ssl: {
+        rejectUnauthorized: false,
+      },
     },
     pool: {
       min: 1,

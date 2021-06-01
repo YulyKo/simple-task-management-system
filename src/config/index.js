@@ -13,7 +13,8 @@ const schema = joi
     DBHOST: joi.string().required(),
     DBNAME: joi.string().required(),
     DBUSER: joi.string().required(),
-    DBPASSWORD: joi.string()
+    DBPASSWORD: joi.string(),
+    DATABASE_URL: joi.string().required(),
   })
   .unknown()
   .required();
