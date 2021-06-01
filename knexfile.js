@@ -21,7 +21,7 @@ module.exports = {
     },
   },
   production: {
-    client: 'postgresql',
+    client: 'pg',
     connection: {
       connectionString: config.DATABASE_URL,
       ssl: {
