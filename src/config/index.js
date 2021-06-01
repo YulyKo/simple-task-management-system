@@ -8,8 +8,8 @@ const schema = joi
   .keys({
     NODE_ENV: joi.string(),
     HOST: joi.string(),
-    PORT: joi.number().required(),
-    SECRET: joi.string().required(),
+    PORT: joi.number(),
+    SECRET: joi.string(),
     DBHOST: joi.string(),
     DBNAME: joi.string(),
     DBUSER: joi.string(),
