@@ -24,4 +24,25 @@
 
 Даталогічна модель:
 
-<img src="https://firebasestorage.googleapis.com/v0/b/green-peach.appspot.com/o/tms-resourses%2Fdb-tms.png?alt=media&token=02c0407d-0b81-49ed-8a43-4d68e6521ecf">
+<!-- <img src="https://firebasestorage.googleapis.com/v0/b/green-peach.appspot.com/o/tms-resourses%2Fdb-tms.png?alt=media&token=02c0407d-0b81-49ed-8a43-4d68e6521ecf"> -->
+
+# Архітектура і файлова система
+
+## Файлова система:
+
+    |_ config
+        |- index.js - connact db to hosting
+    |_ modules
+      |_ users
+        |_ services - files with db pool.query
+        |_ controllers - files use services
+        |_ index.js - import all controllers
+      |_ tasks
+        |_ services - files with db pool.query
+        |_ controllers - files use services
+        |_ index.js - import all controllers
+    |_ router
+        |_ index.js - routing with calling controllers methods
+    |_ scripts - files for init db
+    |_ utils - common files like validators, consts etc
+    |_  index.js - register all dependencies and call scripts
