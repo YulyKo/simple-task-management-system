@@ -46,4 +46,3 @@
     |_ scripts - files for init db
     |_ utils - common files like validators, consts etc
     |_  index.js - register all dependencies and call scripts
-
