@@ -10,9 +10,9 @@ const schema = joi
     HOST: joi.string(),
     PORT: joi.number().required(),
     SECRET: joi.string().required(),
-    DBHOST: joi.string().required(),
-    DBNAME: joi.string().required(),
-    DBUSER: joi.string().required(),
+    DBHOST: joi.string(),
+    DBNAME: joi.string(),
+    DBUSER: joi.string(),
     DBPASSWORD: joi.string(),
     DATABASE_URL: joi.string().required(),
   })

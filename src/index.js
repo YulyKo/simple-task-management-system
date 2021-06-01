@@ -10,7 +10,7 @@ knex
   .raw('select 1+1 as result')
   .then(() => {
     server.listen(config.PORT, () => {
-      log.info(`Server running at ${config.HOST} port ${config.PORT}`);
+      log.info('Server running at');
     });
   })
   .catch(err => {
