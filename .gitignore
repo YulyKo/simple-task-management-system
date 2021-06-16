@@ -2,6 +2,9 @@
 package-lock.json
 .env
 config.js
+
+#copy-paste from my another projects
+
 node_modules
 # Logs
 logs
