@@ -1,7 +1,5 @@
-const express = require('express');
-const router = express.Router();
-const auth = require('./auth');
-
-router.use('/auth', auth);
-
-module.exports = router;
+module.exports = (app) => {
+  app.get('/api', (req, res) => res.status(200).send({
+    message: 'API start here here',
+  }));
+};

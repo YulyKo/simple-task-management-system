@@ -4,8 +4,8 @@
   "description": "application for check tasks status",
   "main": "index.js",
   "scripts": {
-    "start": "node src/index.js",
-    "start:dev": "nodemon index.js",
+    "start": "node src/app.js",
+    "start:dev": "./node_modules/.bin/nodemon ./bin/www -w app.js -w server",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
@@ -19,27 +19,19 @@
   "devDependencies": {
     "eslint": "^7.27.0",
     "eslint-plugin-prettier": "^3.4.0",
+    "eslint-plugin-import": "^2.23.4",
     "husky": "^6.0.0",
-    "nodemon": "^2.0.7"
+    "nodemon": "^2.0.7",
+    "prettier": "^2.3.0"
   },
   "dependencies": {
     "cors": "^2.8.5",
-    "dotenv": "^10.0.0",
-    "eslint-plugin-import": "^2.23.4",
     "express": "^4.17.1",
-    "express-async-errors": "^3.1.1",
-    "helmet": "^4.6.0",
-    "http-errors": "^1.8.0",
-    "joi": "^17.4.0",
+    "body-parser": "^1.15.2",
     "jsonwebtoken": "^8.5.1",
-    "knex": "^0.95.6",
     "morgan": "^1.10.0",
     "pg": "^8.6.0",
-    "pino": "^6.11.3",
-    "pino-pretty": "^5.0.1",
-    "prettier": "^2.3.0",
-    "sequelize": "^6.6.2",
-    "sqlite3": "^5.0.2"
+    "sequelize": "^6.6.2"
   },
   "husky": {
     "hooks": {
