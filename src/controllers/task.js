@@ -3,6 +3,7 @@ const { v4: uuidv4 } = require('uuid');
 
 module.exports = {
   create(req, res) {
+    // next step => get all tasks by user access token
     return db.tasks
       .create({
         id: uuidv4(),
@@ -18,7 +19,13 @@ module.exports = {
       });
   },
 
-  // getAll(req, res) {},
+  getAll(req, res) {
+    // next step => get all tasks by user access token
+    return db.tasks
+      .findAll()
+      .then((tasks) => res.status(200).send(tasks))
+      .catch((error) => res.status(400).send(error));
+  },
 
   // getById(req, res) {},
 
