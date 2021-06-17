@@ -27,7 +27,15 @@ module.exports = {
       .catch((error) => res.status(400).send(error));
   },
 
-  // getById(req, res) {},
+  getById(req, res) {
+    // next step => get all tasks by user access token
+    return db.tasks
+      .findAll({ where: {
+        id: req.params.taskId,
+      } })
+      .then((task) => res.status(200).send(task))
+      .catch((error) => res.status(400).send(error));
+  },
 
   // update(req, res) {},
 
