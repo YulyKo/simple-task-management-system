@@ -17,6 +17,7 @@ module.exports = {
       })
       .then((taks) => res.status(201).send(taks.id))
       .catch((error) => {
+        console.log(error);
         res.status(400).send(error);
       });
   },
