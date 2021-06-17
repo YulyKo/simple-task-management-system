@@ -1,4 +1,4 @@
-const db = require('../../models/index');
+const db = require('../../models').taks;
 const { v4: uuidv4 } = require('uuid');
 
 module.exports = {
