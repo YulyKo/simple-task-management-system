@@ -38,7 +38,6 @@ module.exports = {
   },
 
   update(req, res) {
-    console.log(req.body);
     return db.tasks
       .update(
         {
@@ -49,10 +48,7 @@ module.exports = {
         },
         { where: { id: req.params.taskId } })
       .then((task) => res.status(200).send(task))
-      .catch((error) => {
-        console.log(error);
-        res.status(400).send(error);
-      });
+      .catch((error) => { res.status(400).send(error) });
   },
 
   delete(req, res) {
