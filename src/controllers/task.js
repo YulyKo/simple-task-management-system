@@ -4,8 +4,6 @@ const { v4: uuidv4 } = require('uuid');
 module.exports = {
   create(req, res) {
     // next step => get all tasks by user access token
-    console.log(uuidv4());
-    console.log(req.body);
     return db.tasks
       .create({
         id: uuidv4(),
@@ -17,7 +15,6 @@ module.exports = {
       })
       .then((taks) => res.status(201).send(taks.id))
       .catch((error) => {
-        console.log(error);
         res.status(400).send(error);
       });
   },
@@ -41,6 +38,7 @@ module.exports = {
   },
 
   update(req, res) {
+    console.log(req.body);
     return db.tasks
       .update(
         {
