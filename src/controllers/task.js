@@ -49,7 +49,10 @@ module.exports = {
         },
         { where: { id: req.params.taskId } })
       .then((task) => res.status(200).send(task))
-      .catch((error) => res.status(400).send(error));
+      .catch((error) => {
+        console.log(error);
+        res.status(400).send(error);
+      });
   },
 
   delete(req, res) {
