@@ -4,8 +4,8 @@
   "description": "application for check tasks status",
   "main": "index.js",
   "scripts": {
-    "start": "node ./bin/www -w ./src/app.js -w server",
-    "start:dev": "./node_modules/.bin/nodemon ./bin/www -w ./src/app.js -w server",
+    "start": "node ./src/index.js -w ./src/app.js -w server",
+    "start:dev": "./node_modules/.bin/nodemon ./src/index.js -w ./src/app.js -w server",
     "test": "echo \"Error: no test specified\" && exit 1",
     "migrate-db": "sequelize db:migrate"
   },
@@ -32,6 +32,7 @@
     "jsonwebtoken": "^8.5.1",
     "morgan": "^1.10.0",
     "pg": "^8.6.0",
+    "sequelize-cli": "^6.2.0",
     "uuid": "^8.3.2"
   },
   "husky": {
