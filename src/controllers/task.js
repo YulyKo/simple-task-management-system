@@ -43,7 +43,12 @@ module.exports = {
   update(req, res) {
     return db.tasks
       .update(
-        { title: req.body.title },
+        {
+          title: req.body.title,
+          description: req.body.description,
+          priority: req.body.priority,
+          dueDate: req.body.dueDate,
+        },
         { where: { id: req.params.taskId } })
       .then((task) => res.status(200).send(task))
       .catch((error) => res.status(400).send(error));
