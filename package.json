@@ -6,8 +6,7 @@
   "scripts": {
     "start": "node ./index.js -w ./app.js -w server",
     "start:dev": "./node_modules/.bin/nodemon ./src/index.js -w ./src/app.js -w server",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "migrate-db": "sequelize db:migrate"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
     "ReactJS",
