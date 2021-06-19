@@ -10,5 +10,6 @@ module.exports = (app) => {
   app.get('/api/tasks', taskController.getAll);
   app.get('/api/tasks/:taskId', taskController.getById);
   app.put('/api/tasks/:taskId', taskController.update);
+  app.put('/api/tasks/:taskId', taskController.changeoverTask);
   app.delete('/api/tasks/:taskId', taskController.delete);
 };
