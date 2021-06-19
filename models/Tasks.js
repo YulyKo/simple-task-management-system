@@ -12,7 +12,7 @@ module.exports = (sequelize, DataTypes) => {
     static associate() {
       // define association here
     }
-  };
+  }
   tasks.init({
     title: DataTypes.STRING,
     description: DataTypes.STRING,
