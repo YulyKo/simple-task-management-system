@@ -10,7 +10,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(sequelize);
 app.use(cors({
-  origin: 'https://tms-front-end.herokuapp.com',
+  origin: 'http://localhost:3000',
 }));
 
 require('./src/routes')(app);
