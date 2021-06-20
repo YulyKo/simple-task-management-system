@@ -57,4 +57,15 @@ module.exports = {
       .then((task) => res.status(200).send(task))
       .catch((error) => res.status(400).send(error));
   },
+
+  changeoverTask(req, res) {
+    return db.tasks
+      .update(
+        {
+          isDone: req.body.status,
+        },
+        { where: { id: req.params.taskId } })
+      .then((task) => res.status(200).send(task))
+      .catch((error) => { res.status(400).send(error); });
+  },
 };
