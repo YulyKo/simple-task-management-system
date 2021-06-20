@@ -19,6 +19,7 @@ function getCodeValidateError(err) {
 module.exports = {
   generateJWT(email) {
     return jwt.sign({ email: email }, config.secret , { expiresIn: '2h' });
+    // tried :
     // return jwt.sign(JSON.stringify(email), config.secret, { expiresIn: 60 * 60, algorithm: 'HS256' });
     // return jwt.sign(email, '' + config.secret, { expiresIn: 60 * 60 });
   },

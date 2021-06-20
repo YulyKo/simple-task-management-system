@@ -1,6 +1,5 @@
 const db = require('../../models/index');
 const passwordHash = require('password-hash');
-// const Sequelize = require('sequelize');
 const token = require('./token');
 
 function findByEmail(email) {
@@ -17,7 +16,6 @@ function changePasswordEquals(dbPassword, bodyPassword) {
 module.exports = {
   registration(req, res) {
     const accessToken = token.generateJWT({ username: req.body.username });
-    console.log(accessToken);
     return db.users
       .create({
         username: req.body.username,
@@ -42,9 +40,7 @@ module.exports = {
         }
         // check token
         let codeStatus = token.verifyJWT(req.body.token);
-        console.log(codeStatus);
         if( +codeStatus === 201 ){
-          console.log(req.body.email);
           res.status(201).send({ accessToken: token.generateJWT(req.body.email) });
         } else {
           res.status(codeStatus).send();
@@ -53,5 +49,4 @@ module.exports = {
     })
     .catch(error => res.status(400).send(error.message));
   },
-
 };

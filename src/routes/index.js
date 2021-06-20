@@ -8,7 +8,7 @@ module.exports = (app) => {
   }));
 
   app.post('/api/users/registration', cors(), userController.registration);
-  app.post('/api/users/login', cors(), userController.login);
+  app.get('/api/users/login', cors(), userController.login);
 
   app.post('/api/tasks', cors(), taskController.create);
   app.get('/api/tasks', taskController.getAll);
