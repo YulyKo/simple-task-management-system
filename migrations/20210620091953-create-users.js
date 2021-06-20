@@ -4,7 +4,10 @@ module.exports = {
     await queryInterface.createTable('users', {
       username: {
         allowNull: false,
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        validate: {
+          is: ['^[a-zA-Zа-яА-ЯІЇЄҐҐ- ]+$','gm'],
+        }
       },
       email: {
         primaryKey: true,
