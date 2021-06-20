@@ -1,6 +1,7 @@
 const db = require('../../models/index');
 const passwordHash = require('password-hash');
 const token = require('./token');
+const { sendEmail } = require('./email');
 
 function findByEmail(email) {
   return db.users
@@ -23,7 +24,13 @@ module.exports = {
         confirmed: false,
         passwordHash: passwordHash.generate(req.body.password),
       })
-      .then(() => res.status(201).send(accessToken))
+      .then((user) => {
+        // eslint-disable-next-line no-undef
+        const code = btoa(user.username); // code is base64 of username
+        sendEmail(user.username, user.email, code);
+        // send token to client
+        res.status(201).send(accessToken);
+      })
       .catch((error) => {
         res.status(400).send(error.message);
       });
@@ -40,8 +47,11 @@ module.exports = {
         }
         // check token
         let codeStatus = token.verifyJWT(req.body.token);
-        if( +codeStatus === 201 ){
-          res.status(201).send({ accessToken: token.generateJWT(req.body.email) });
+        if( +codeStatus === 201 ) {
+          res.status(201).send({
+            accessToken: token.generateJWT(req.body.email),
+            confirmed: user.confirmed,
+          });
         } else {
           res.status(codeStatus).send();
         }
