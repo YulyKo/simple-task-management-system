@@ -4,7 +4,8 @@
     "password": "admin",
     "database": "tms-db",
     "host": "127.0.0.1",
-    "dialect": "postgres"
+    "dialect": "postgres",
+    "secret": "fw7cDTZzxdApAHekhbAHeI0gW22FML2Hpz7qO8lTuwy9z2vDRNvd4ZdBEcxyNhqYC3I6MYsQQjF9oUrb2jVlBU5Tb55iSy1ssxyx2MIdlLrCOqBcCwRt00aXd2AiI4MT"
   },
   "test": {
     "username": "postgres",
@@ -22,6 +23,7 @@
       "ssl": {
         "rejectUnauthorized": false
       }
-    }
+    },
+    "secret": "fw7cDTZzxdApAHekhbAHeI0gW22FML2Hpz7qO8lTuwy9z2vDRNvd4ZdBEcxyNhqYC3I6MYsQQjF9oUrb2jVlBU5Tb55iSy1ssxyx2MIdlLrCOqBcCwRt00aXd2AiI4MT"
   }
 }

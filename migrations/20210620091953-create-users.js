@@ -7,9 +7,13 @@ module.exports = {
         type: Sequelize.STRING
       },
       email: {
+        primaryKey: true,
+        unique: true,
         allowNull: false,
         type: Sequelize.STRING,
-        primaryKey: true,
+        validate: {
+          isEmail: true,
+        },
       },
       confirmed: {
         allowNull: false,
