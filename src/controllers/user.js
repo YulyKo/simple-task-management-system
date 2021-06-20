@@ -7,9 +7,6 @@ const config = require('../../config/config.json')[env];
 module.exports = {
   registration(req, res) {
     const token = jwt.sign({ email: req.body.email }, config.secret);
-    console.log('body -> ', req.body);
-    console.log('token -> ', token);
-    console.log('bcrypt.hashSync-> ', bcrypt.hashSync(req.body.password, 8));
     return db.users
       .create({
         username: req.body.username,
@@ -19,8 +16,8 @@ module.exports = {
       })
       .then(() => res.status(201).send(token))
       .catch((error) => {
-        res.status(400).send(error);
-        console.log(error);
+        res.status(400).send(error.message);
+        console.log(error.message);
       });
   },
 };

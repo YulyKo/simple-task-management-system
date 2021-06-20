@@ -13,7 +13,10 @@ module.exports = (sequelize, DataTypes) => {
     },
     email: {
       primaryKey: true,
-      unique: true,
+      unique: {
+        args: [true],
+        msg: 'exist',
+      },
       type: DataTypes.STRING,
       allowNull: false,
       validate: {
