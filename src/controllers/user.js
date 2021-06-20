@@ -1,23 +1,57 @@
 const db = require('../../models/index');
-const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
-const env = process.env.NODE_ENV || 'development';
-const config = require('../../config/config.json')[env];
+const passwordHash = require('password-hash');
+// const Sequelize = require('sequelize');
+const token = require('./token');
+
+function findByEmail(email) {
+  return db.users
+    .findOne({ where: { email: email } })
+    .then(user => { return user; })
+    .catch(error => { return error; });
+}
+
+function changePasswordEquals(dbPassword, bodyPassword) {
+  return passwordHash.verify(bodyPassword, dbPassword);
+}
 
 module.exports = {
   registration(req, res) {
-    const token = jwt.sign({ email: req.body.email }, config.secret);
+    const accessToken = token.generateJWT({ username: req.body.username });
+    console.log(accessToken);
     return db.users
       .create({
         username: req.body.username,
         email: req.body.email,
         confirmed: false,
-        passwordHash: bcrypt.hashSync(req.body.password, 8),
+        passwordHash: passwordHash.generate(req.body.password),
       })
-      .then(() => res.status(201).send(token))
+      .then(() => res.status(201).send(accessToken))
       .catch((error) => {
         res.status(400).send(error.message);
-        console.log(error.message);
       });
   },
+
+  login(req, res) {
+    findByEmail(req.body.email)
+    .then((user) => {
+      if (user) {
+        // check equals password
+        const passwordEqualsStatus = changePasswordEquals(user.dataValues.passwordHash, req.body.password);
+        if (passwordEqualsStatus === false) {
+          res.status(201).send({ mesage: 'Password is not correct' });
+        }
+        // check token
+        let codeStatus = token.verifyJWT(req.body.token);
+        console.log(codeStatus);
+        if( +codeStatus === 201 ){
+          console.log(req.body.email);
+          res.status(201).send({ accessToken: token.generateJWT(req.body.email) });
+        } else {
+          res.status(codeStatus).send();
+        }
+      } else res.status(400).send({ mesage: 'User is not exists' });
+    })
+    .catch(error => res.status(400).send(error.message));
+  },
+
 };
