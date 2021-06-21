@@ -25,8 +25,7 @@ module.exports = {
         passwordHash: passwordHash.generate(req.body.password),
       })
       .then((user) => {
-        // eslint-disable-next-line no-undef
-        const code = btoa(user.username); // code is base64 of username
+        const code = Buffer.from(user.email).toString('base64'); // code is base64 of email
         sendEmail(user.username, user.email, code);
         // send token to client
         res.status(201).send(accessToken);
@@ -58,5 +57,15 @@ module.exports = {
       } else res.status(400).send({ mesage: 'User is not exists' });
     })
     .catch(error => res.status(400).send(error.message));
+  },
+
+  confirmUser(req, res) {
+    const bodyCode = Buffer.from(req.params.code, 'base64').toString();
+    return findByEmail(bodyCode)
+      .then((user) => {
+        if(user) db.users.update({ confirmed: true }, { where: { email: bodyCode } });
+        res.status(201).send(user);
+      })
+      .catch((error) => res.status(400).send(error.message));
   },
 };
