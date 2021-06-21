@@ -10,13 +10,13 @@ const transport = nodemailer.createTransport({
   },
 });
 
-module.exports.sendEmail = (name, email, confirmationCode) {
+module.exports.sendEmail = (name, email, confirmationCode) => {
   transport.sendEmail({
     from: user,
     to: email,
-    subject: "TMS - confirm your account",
+    subject: 'TMS - confirm your account',
     html: formTemplate(user, process.env.CONFIRN_PAGE_URL, confirmationCode),
-  })
+  });
 };
 /*
 Creately
