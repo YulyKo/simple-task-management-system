@@ -1,6 +1,7 @@
 /node_modules
 package-lock.json
 .env
+/src/utils/form.js
 
 #copy-paste from my another projects
 

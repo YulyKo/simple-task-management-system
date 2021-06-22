@@ -1,5 +1,4 @@
 module.exports = {
-  secret: 'bezkoder-secret-key',
-  user: 'tms.mail@opentrash.com', 
+  user: 'task.manager.system.team@gmail.com', 
   pass: '1qASDFGHJKL', 
 };
