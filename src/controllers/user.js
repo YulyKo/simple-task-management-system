@@ -20,7 +20,7 @@ function getToken(email) {
   let token;
   
   // set sicret by env
-  let secret = env === 'prodaction' ?
+  let secret = env === 'production' ?
   secret = process.env.SECRET :
   secret = config.secret;
 
