@@ -17,8 +17,15 @@ function changePasswordEquals(dbPassword, bodyPassword) {
 }
 
 function getToken(email) {
-  // create token
-  const token = jwt.sign({ email: email }, config.secret , { expiresIn: 86400  });
+  let token;
+  
+  // set sicret by env
+  let secret = env === 'prodaction' ?
+  secret = process.env.SECRET :
+  secret = config.secret;
+
+  // set token
+  token = jwt.sign({ email: email }, secret , { expiresIn: 86400  });
   return token;
 }
 
