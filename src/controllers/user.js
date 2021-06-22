@@ -20,13 +20,14 @@ function getToken(email) {
   let token;
 
   // set sicret by env
+  console.log(env === 'production' ? process.env.SECRET : config.secret);
   console.log(env === 'production' ?
-  secret = process.env.SECRET :
+  process.env.SECRET :
   secret = config.secret);
 
   let secret = env === 'production' ?
-  secret = process.env.SECRET :
-  secret = config.secret;
+  process.env.SECRET :
+  config.secret;
 
   // set token
   token = jwt.sign({ email: email }, secret , { expiresIn: 86400  });
