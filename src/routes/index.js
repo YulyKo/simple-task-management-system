@@ -1,7 +1,6 @@
 const { verifyToken } = require('../midlewhere/authJWT');
 const taskController = require('../controllers').task;
 const userController = require('../controllers').user;
-const cors = require('cors');
 
 module.exports = (app) => {
   app.get('/api', function(req, res) {
@@ -29,8 +28,13 @@ module.exports = (app) => {
 
   app.get(
     '/api/users/login',
-    [verifyToken],
     userController.login
+  );
+
+  app.get(
+    '/api/users/token',
+    [verifyToken],
+    userController.refresh
   );
 
   // crud task

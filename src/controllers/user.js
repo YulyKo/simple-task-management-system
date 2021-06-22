@@ -1,7 +1,9 @@
 const db = require('../../models/index');
 const passwordHash = require('password-hash');
-const token = require('./token');
-const { sendEmail } = require('./email');
+const { sendMail: sendEmail } = require('./mail');
+const jwt = require('jsonwebtoken');
+const env = process.env.NODE_ENV || 'development';
+const config = require('../../config/config.json')[env];
 
 function findByEmail(email) {
   return db.users
@@ -16,7 +18,6 @@ function changePasswordEquals(dbPassword, bodyPassword) {
 
 module.exports = {
   registration(req, res) {
-    const accessToken = token.generateJWT({ username: req.body.username });
     return db.users
       .create({
         username: req.body.username,
@@ -27,45 +28,59 @@ module.exports = {
       .then((user) => {
         const code = Buffer.from(user.email).toString('base64'); // code is base64 of email
         sendEmail(user.username, user.email, code);
-        // send token to client
-        res.status(201).send(accessToken);
+        res.send('authorized');
       })
       .catch((error) => {
-        res.status(400).send(error.message);
+        res.status(500).send(error.message);
       });
   },
 
   login(req, res) {
     findByEmail(req.body.email)
     .then((user) => {
-      if (user) {
-        // check equals password
-        const passwordEqualsStatus = changePasswordEquals(user.dataValues.passwordHash, req.body.password);
-        if (passwordEqualsStatus === false) {
-          res.status(201).send({ mesage: 'Password is not correct' });
-        }
-        // check token
-        let codeStatus = token.verifyJWT(req.body.token);
-        if( +codeStatus === 201 ) {
-          res.status(201).send({
-            accessToken: token.generateJWT(req.body.email),
-            confirmed: user.confirmed,
-          });
-        } else {
-          res.status(codeStatus).send();
-        }
-      } else res.status(400).send({ mesage: 'User is not exists' });
+
+      // check exist user
+      if (!user) {
+        res.status(404).send({ mesage: 'User is not exists' });
+      }
+
+      // check equals password
+      const passwordEqualsStatus = changePasswordEquals(user.dataValues.passwordHash, req.body.password);
+      if (!passwordEqualsStatus) {
+        res.status(401).send({
+          accessToken: null,
+          mesage: 'Password is not correct'
+        });
+      }
+
+      // create token
+      const token = jwt.sign({ email: user.email }, config.secret , { expiresIn: 86400  });
+
+      res.status(201).send({
+        username: user.username,
+        email: user.email,
+        accessToken: token,
+      });
     })
-    .catch(error => res.status(400).send(error.message));
+    .catch(error => res.status(500).send(error.message));
   },
 
   confirmUser(req, res) {
     const bodyCode = Buffer.from(req.params.code, 'base64').toString();
     return findByEmail(bodyCode)
       .then((user) => {
-        if(user) db.users.update({ confirmed: true }, { where: { email: bodyCode } });
+        if(user) db.users.update(
+          {
+            confirmed: true },
+            { where: { email: bodyCode }
+          }
+        );
         res.status(201).send(user);
       })
-      .catch((error) => res.status(400).send(error.message));
+      .catch((error) => res.status(500).send(error.message));
+  },
+
+  refresh() {
+    return 
   },
 };
