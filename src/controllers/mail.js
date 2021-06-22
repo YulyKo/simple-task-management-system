@@ -18,11 +18,13 @@ const transport = nodemailer.createTransport({
   },
 });
 
-const mailOptions = (name, email, confirmationCode) => {return  {
+const mailOptions = (name, email, confirmationCode) => {
+  const url = env === 'production' ? process.env.CONFIRN_PAGE_UR : config.confirm_page_url;
+  return  {
     from: user,
     to: email,
     subject: 'TMS - confirm your account',
-    html: template(name, config.confirm_page_url, confirmationCode),
+    html: template(name, url, confirmationCode),
   };
 };
 
