@@ -19,7 +19,7 @@ const transport = nodemailer.createTransport({
 });
 
 const mailOptions = (name, email, confirmationCode) => {
-  const url = env === 'production' ? process.env.CONFIRN_PAGE_UR : config.confirm_page_url;
+  const url = env === 'production' ? process.env.CONFIRM_PAGE_URL : config.confirm_page_url;
   return  {
     from: user,
     to: email,
