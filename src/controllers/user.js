@@ -16,6 +16,12 @@ function changePasswordEquals(dbPassword, bodyPassword) {
   return passwordHash.verify(bodyPassword, dbPassword);
 }
 
+function getToken(email) {
+  // create token
+  const token = jwt.sign({ email: email }, config.secret , { expiresIn: 86400  });
+  return token;
+}
+
 module.exports = {
   registration(req, res) {
     return db.users
@@ -28,7 +34,7 @@ module.exports = {
       .then((user) => {
         const code = Buffer.from(user.email).toString('base64'); // code is base64 of email
         sendEmail(user.username, user.email, code);
-        res.send('authorized');
+        res.send({ accessToken: getToken(user.email) });
       })
       .catch((error) => {
         res.status(500).send(error.message);
@@ -53,13 +59,10 @@ module.exports = {
         });
       }
 
-      // create token
-      const token = jwt.sign({ email: user.email }, config.secret , { expiresIn: 86400  });
-
       res.status(201).send({
         username: user.username,
         email: user.email,
-        accessToken: token,
+        accessToken: getToken(user.email),
       });
     })
     .catch(error => res.status(500).send(error.message));
