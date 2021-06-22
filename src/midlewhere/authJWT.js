@@ -2,16 +2,18 @@ const jwt = require('jsonwebtoken');
 const env = process.env.NODE_ENV || 'development';
 const config = require('../../config/config.json')[env];
 
+const secret = env === 'prodaction' ? process.env.SECRET : config.secret;
+
 const verifyToken = (req, res, next) => {
-  let token = req.headers['x-access-token'];
+  let token = req.headers['authorization'];
 
   if (!token) {
     return res.status(403).send({
       message: 'No token provided!'
-    });
+    });2
   }
 
-  jwt.verify(token, config.secret, (err, decoded) => {
+  jwt.verify(token, secret, (err, decoded) => {
     if (err) {
       return res.status(401).send({
         message: 'Unauthorized!'
