@@ -18,15 +18,19 @@ function changePasswordEquals(dbPassword, bodyPassword) {
 
 function getToken(email) {
   let token;
-  
+
   // set sicret by env
-  console.log(env === 'production');
+  console.log(env === 'production' ?
+  secret = process.env.SECRET :
+  secret = config.secret);
+
   let secret = env === 'production' ?
   secret = process.env.SECRET :
   secret = config.secret;
 
   // set token
   token = jwt.sign({ email: email }, secret , { expiresIn: 86400  });
+  console.log(token);
   return token;
 }
 
@@ -40,11 +44,13 @@ module.exports = {
         passwordHash: passwordHash.generate(req.body.password),
       })
       .then((user) => {
-        const code = Buffer.from(user.email).toString('base64'); // code is base64 of email
+        // code is base64 of email
+        const code = Buffer.from(user.email).toString('base64');
         sendEmail(user.username, user.email, code);
         res.send({ accessToken: getToken(user.email) });
       })
       .catch((error) => {
+        console.log(error);
         res.status(500).send(error.message);
       });
   },
