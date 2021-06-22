@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken');
 const env = process.env.NODE_ENV || 'development';
 const config = require('../../config/config.json')[env];
 
-const secret = env === 'prodaction' ? process.env.SECRET : config.secret;
+const secret = env === 'production' ? process.env.SECRET : config.secret;
 
 const verifyToken = (req, res, next) => {
   let token = req.headers['authorization'];
