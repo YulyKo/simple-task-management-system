@@ -83,7 +83,18 @@ module.exports = {
       .catch((error) => res.status(500).send(error.message));
   },
 
-  refresh() {
-    return 
+  refresh(req, res) {
+    const email = req.params.email;
+    return findByEmail(email)
+      .then((user) => {
+        // check exist user
+        if (!user) {
+          res.status(404).send({ mesage: 'User is not exists' });
+        }
+
+        // send new token
+        res.status(201).send({ accessToken: getToken(email) });
+      })
+      .catch((error) => res.status(500).send(error.mesage));
   },
 };

@@ -32,8 +32,7 @@ module.exports = (app) => {
   );
 
   app.get(
-    '/api/users/token',
-    [verifyToken],
+    '/api/users/token/:email',
     userController.refresh
   );
 
