@@ -6,12 +6,10 @@ const secret = env === 'production' ? process.env.SECRET : config.secret;
 
 const verifyToken = (req, res, next) => {
   let token = req.headers['authorization'];
-  console.log(env === 'production', secret);
-
   if (!token) {
     return res.status(403).send({
       message: 'No token provided!'
-    });2
+    });
   }
 
   jwt.verify(token, secret, (err, decoded) => {
