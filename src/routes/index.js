@@ -17,22 +17,22 @@ module.exports = (app) => {
 
   // auth user
   app.post(
-    '/api/users/registration',
+    '/api/auth/registration',
     userController.registration
   );
   app.post(
-    '/api/users/confirm/:code',
+    '/api/auth/confirm/:code',
     [verifyToken],
     userController.confirmUser
   );
 
   app.get(
-    '/api/users/login',
+    '/api/auth/login',
     userController.login
   );
 
   app.get(
-    '/api/users/token/:email',
+    '/api/auth/token/:email',
     userController.refresh
   );
 
