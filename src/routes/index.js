@@ -26,7 +26,7 @@ module.exports = (app) => {
     userController.confirmUser
   );
 
-  app.get(
+  app.post(
     '/api/auth/login',
     userController.login
   );
