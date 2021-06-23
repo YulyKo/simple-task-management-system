@@ -37,6 +37,15 @@ module.exports = {
         type: Sequelize.DATE
       },
       // ownerId here
+      ownerId: {
+        type: Sequelize.STRING,
+        onDelete: 'CASCADE',
+        references: {
+          model: 'users',
+          key: 'email',
+          as: 'ownerId',
+        },
+      },
     });
   },
   down: async (queryInterface) => {
