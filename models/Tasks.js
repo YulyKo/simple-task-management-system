@@ -1,7 +1,6 @@
 'use strict';
-const {
-  Model
-} = require('sequelize');
+const { Model } = require('sequelize');
+
 module.exports = (sequelize, DataTypes) => {
   class tasks extends Model {
     /**
@@ -18,8 +17,12 @@ module.exports = (sequelize, DataTypes) => {
     description: DataTypes.STRING,
     dueDate: DataTypes.DATE,
     isDone: DataTypes.BOOLEAN,
-    priority: DataTypes.INTEGER
-  }, {
+    priority: DataTypes.INTEGER,
+    owner: {
+      type: DataTypes.INTEGER,
+      references: { model: 'users', key: 'email' }
+    },
+    }, {
     sequelize,
     modelName: 'tasks',
   });

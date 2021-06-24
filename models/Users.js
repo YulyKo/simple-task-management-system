@@ -3,8 +3,8 @@
 const { Model } = require('sequelize');
 
 module.exports = (sequelize, DataTypes) => {
-  class users extends Model {}
-  users.init({
+  class Users extends Model {}
+  Users.init({
     username: {
       type: DataTypes.STRING,
       validate: {
@@ -35,6 +35,6 @@ module.exports = (sequelize, DataTypes) => {
     sequelize,
     modelName: 'users',
   });
-  users.removeAttribute('id');
-  return users;
+  Users.removeAttribute('id');
+  return Users;
 };
