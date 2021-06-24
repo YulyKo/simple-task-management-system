@@ -1,4 +1,5 @@
 'use strict';
+const Users = require('../models/Users');
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
@@ -46,20 +47,7 @@ module.exports = {
         onDelete: 'CASCADE',
         onUpdate: 'CASCADE',
       },
-    }).then(() => queryInterface.addConstraint(
-      'tasks',
-      ['email'],
-      {
-        type: 'foreign key',
-        name: 'owner',
-        references: {
-          table: 'users',
-          field: 'email',
-        },
-        onDelete: 'cascade',
-        onUpdate: 'cascade'
-      }
-    ));
+    });
   },
   down: async (queryInterface) => {
     await queryInterface.dropTable('tasks');

@@ -1,4 +1,3 @@
-/* eslint-disable no-useless-escape */
 'use strict';
 const { Model } = require('sequelize');
 
@@ -8,6 +7,7 @@ module.exports = (sequelize, DataTypes) => {
     username: {
       type: DataTypes.STRING,
       validate: {
+        // eslint-disable-next-line no-useless-escape
         is: ['^[a-zA-Z а-яА-Я\-]+$','i'],
       },
     },
