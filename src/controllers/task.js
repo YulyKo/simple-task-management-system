@@ -52,8 +52,13 @@ module.exports = {
 
   delete(req, res) {
     return db.tasks
-      .destroy( { where: { id: req.params.taskId } })
-      .then((task) => res.status(200).send(task))
+      .destroy({
+        where: {
+          id: req.params.taskId,
+          owner: getOwnerEmail(req),
+        }
+      })
+      .then(() => res.status(200).send())
       .catch((error) => res.status(400).send(error));
   },
 
