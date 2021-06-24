@@ -22,7 +22,6 @@ module.exports = (app) => {
   );
   app.post(
     '/api/auth/confirm/:code',
-    [verifyToken],
     userController.confirmUser
   );
 
