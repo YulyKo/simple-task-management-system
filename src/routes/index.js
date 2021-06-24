@@ -17,22 +17,22 @@ module.exports = (app) => {
 
   // auth user
   app.post(
-    '/api/users/registration',
+    '/api/auth/registration',
     userController.registration
   );
-  app.post(
-    '/api/users/confirm/:code',
-    [verifyToken],
+
+  app.put(
+    '/api/auth/confirm/:code',
     userController.confirmUser
   );
 
-  app.get(
-    '/api/users/login',
+  app.post(
+    '/api/auth/login',
     userController.login
   );
 
   app.get(
-    '/api/users/token/:email',
+    '/api/auth/token/:email',
     userController.refresh
   );
 
@@ -47,12 +47,6 @@ module.exports = (app) => {
     '/api/tasks',
     [verifyToken],
     taskController.getAll
-  );
-
-  app.get(
-    '/api/tasks/:taskId',
-    [verifyToken],
-    taskController.getById
   );
 
   app.put(

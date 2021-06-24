@@ -45,32 +45,32 @@ module.exports = {
         res.send({ accessToken: getToken(user.email) });
       })
       .catch((error) => {
-        res.status(500).send(error.message);
+        res.status(400).send({ message: error.message });
       });
   },
 
   login(req, res) {
     findByEmail(req.body.email)
-    .then((user) => {
-      // check exist user
-      if (!user) {
-        res.status(404).send({ mesage: 'User is not exists' });
-      }
+      .then((user) => {
+        // check exist user
+        if (!user) {
+          res.status(404).send({ message: 'User is not exists' });
+        }
 
-      // check equals password
-      const passwordEqualsStatus = changePasswordEquals(user.dataValues.passwordHash, req.body.password);
-      if (!passwordEqualsStatus) {
-        res.status(401).send({
-          accessToken: null,
-          mesage: 'Password is not correct'
+        // check equals password
+        const passwordEqualsStatus = changePasswordEquals(user.dataValues.passwordHash, req.body.password);
+        if (!passwordEqualsStatus) {
+          res.status(401).send({
+            accessToken: null,
+            message: 'Password is not correct'
+          });
+        }
+
+        res.status(201).send({
+          username: user.username,
+          email: user.email,
+          accessToken: getToken(user.email),
         });
-      }
-
-      res.status(201).send({
-        username: user.username,
-        email: user.email,
-        accessToken: getToken(user.email),
-      });
     })
     .catch(error => res.status(500).send(error.message));
   },
@@ -79,15 +79,14 @@ module.exports = {
     const bodyCode = Buffer.from(req.params.code, 'base64').toString();
     return findByEmail(bodyCode)
       .then((user) => {
-        if(user) db.users.update(
-          {
-            confirmed: true },
-            { where: { email: bodyCode }
-          }
+        if (!user) res.status(404).send({ message: 'User not found' });
+        db.users.update(
+          { confirmed: true },
+          { where: { email: bodyCode } }
         );
-        res.status(201).send(user);
+        res.status(200).send({ message: 'Confirmed' });
       })
-      .catch((error) => res.status(500).send(error.message));
+      .catch((error) => res.status(400).send(error.message));
   },
 
   refresh(req, res) {

@@ -1,4 +1,5 @@
 'use strict';
+const Users = require('../models/Users');
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
@@ -36,10 +37,21 @@ module.exports = {
         allowNull: false,
         type: Sequelize.DATE
       },
-      // ownerId here
+      // have error becauce first mograte tasks and cant found users model
+      owner: {
+        type: Sequelize.STRING,
+        references: {
+          model: 'users',
+          key: 'email',
+        },
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE',
+      },
     });
   },
   down: async (queryInterface) => {
     await queryInterface.dropTable('tasks');
   }
 };
+// return queryInterface.sequelize.query("ALTER TABLE app_users ADD CONSTRAINT unique_user_email UNIQUE (email,column2,column3);")
+  

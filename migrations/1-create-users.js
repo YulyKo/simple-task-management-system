@@ -34,6 +34,8 @@ module.exports = {
         allowNull: false,
         type: Sequelize.DATE
       }
+    }, {
+      freezeTableName: true
     });
   },
   down: async (queryInterface, Sequelize) => {

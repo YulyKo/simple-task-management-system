@@ -1,9 +1,12 @@
 const db = require('../../models/index');
 const { v4: uuidv4 } = require('uuid');
 
+function getOwnerEmail(req) {
+  return req.headers['owner'];
+}
+
 module.exports = {
   create(req, res) {
-    // next step => get all tasks by user access token
     return db.tasks
       .create({
         id: uuidv4(),
@@ -12,28 +15,18 @@ module.exports = {
         priority: req.body.priority,
         dueDate: req.body.dueDate,
         isDone: false,
+        owner: req.body.ownerEmail,
       })
-      .then((taks) => res.status(201).send(taks.id))
+      .then((task) => res.status(201).send(task))
       .catch((error) => {
         res.status(400).send(error);
       });
   },
 
   getAll(req, res) {
-    // next step => get all tasks by user access token
     return db.tasks
-      .findAll()
+      .findAll({ where: { owner: getOwnerEmail(req) } })
       .then((tasks) => res.status(200).send(tasks))
-      .catch((error) => res.status(400).send(error));
-  },
-
-  getById(req, res) {
-    // next step => get all tasks by user access token
-    return db.tasks
-      .findAll({ where: {
-        id: req.params.taskId,
-      } })
-      .then((task) => res.status(200).send(task))
       .catch((error) => res.status(400).send(error));
   },
 
@@ -46,26 +39,41 @@ module.exports = {
           priority: req.body.priority,
           dueDate: req.body.dueDate,
         },
-        { where: { id: req.params.taskId } })
-      .then((task) => res.status(200).send(task))
+        { where: {
+          id: req.params.taskId,
+          owner: getOwnerEmail(req),
+        },
+        returning: true,
+        plain: true,
+        })
+      .then((returned) => res.status(200).send(returned[1]))
       .catch((error) => { res.status(400).send(error); });
   },
 
   delete(req, res) {
     return db.tasks
-      .destroy( { where: { id: req.params.taskId } })
-      .then((task) => res.status(200).send(task))
+      .destroy({
+        where: {
+          id: req.params.taskId,
+          owner: getOwnerEmail(req),
+        }
+      })
+      .then(() => res.status(200).send())
       .catch((error) => res.status(400).send(error));
   },
 
   changeoverTask(req, res) {
     return db.tasks
-      .update(
-        {
+      .update({
           isDone: req.body.status,
         },
-        { where: { id: req.params.taskId } })
-      .then((task) => res.status(200).send(task))
+        { where: {
+          id: req.params.taskId,
+          owner: getOwnerEmail(req)
+        },
+        returning: true,
+      })
+      .then((returning) => res.status(200).send(returning[1][0]))
       .catch((error) => { res.status(400).send(error); });
   },
 };

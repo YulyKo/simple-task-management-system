@@ -1,13 +1,13 @@
-/* eslint-disable no-useless-escape */
 'use strict';
 const { Model } = require('sequelize');
 
 module.exports = (sequelize, DataTypes) => {
-  class users extends Model {}
-  users.init({
+  class Users extends Model {}
+  Users.init({
     username: {
       type: DataTypes.STRING,
       validate: {
+        // eslint-disable-next-line no-useless-escape
         is: ['^[a-zA-Z а-яА-Я\-]+$','i'],
       },
     },
@@ -35,6 +35,6 @@ module.exports = (sequelize, DataTypes) => {
     sequelize,
     modelName: 'users',
   });
-  users.removeAttribute('id');
-  return users;
+  Users.removeAttribute('id');
+  return Users;
 };
