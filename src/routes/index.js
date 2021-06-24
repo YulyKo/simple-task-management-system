@@ -49,12 +49,6 @@ module.exports = (app) => {
     taskController.getAll
   );
 
-  app.get(
-    '/api/tasks/:taskId',
-    [verifyToken],
-    taskController.getById
-  );
-
   app.put(
     '/api/tasks/:taskId',
     [verifyToken],
