@@ -1,6 +1,10 @@
 const db = require('../../models/index');
 const { v4: uuidv4 } = require('uuid');
 
+function getOwnerEmail(req) {
+  return req.headers['owner'];
+}
+
 module.exports = {
   create(req, res) {
     return db.tasks
@@ -20,9 +24,8 @@ module.exports = {
   },
 
   getAll(req, res) {
-    const ownerEmail = req.headers['owner'];
     return db.tasks
-      .findAll({ where: { owner: ownerEmail } })
+      .findAll({ where: { owner: getOwnerEmail(req) } })
       .then((tasks) => res.status(200).send(tasks))
       .catch((error) => res.status(400).send(error));
   },
@@ -36,8 +39,14 @@ module.exports = {
           priority: req.body.priority,
           dueDate: req.body.dueDate,
         },
-        { where: { id: req.params.taskId } })
-      .then((task) => res.status(200).send(task))
+        { where: {
+          id: req.params.taskId,
+          owner: getOwnerEmail(req),
+        },
+        returning: true,
+        plain: true,
+        })
+      .then((returned) => res.status(200).send(returned[1]))
       .catch((error) => { res.status(400).send(error); });
   },
 
