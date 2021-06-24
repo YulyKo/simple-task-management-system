@@ -64,12 +64,16 @@ module.exports = {
 
   changeoverTask(req, res) {
     return db.tasks
-      .update(
-        {
+      .update({
           isDone: req.body.status,
         },
-        { where: { id: req.params.taskId } })
-      .then((task) => res.status(200).send(task))
+        { where: {
+          id: req.params.taskId,
+          owner: getOwnerEmail(req)
+        },
+        returning: true,
+      })
+      .then((returning) => res.status(200).send(returning[1][0]))
       .catch((error) => { res.status(400).send(error); });
   },
 };
