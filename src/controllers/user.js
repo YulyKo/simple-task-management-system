@@ -79,15 +79,14 @@ module.exports = {
     const bodyCode = Buffer.from(req.params.code, 'base64').toString();
     return findByEmail(bodyCode)
       .then((user) => {
-        if(user) db.users.update(
-          {
-            confirmed: true },
-            { where: { email: bodyCode }
-          }
+        if (!user) res.status(404).send({ message: 'User not found' });
+        db.users.update(
+          { confirmed: true },
+          { where: { email: bodyCode } }
         );
-        res.status(201).send(user);
+        res.status(200).send({ message: 'Confirmed' });
       })
-      .catch((error) => res.status(500).send(error.message));
+      .catch((error) => res.status(400).send(error.message));
   },
 
   refresh(req, res) {
