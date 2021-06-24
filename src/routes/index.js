@@ -20,7 +20,8 @@ module.exports = (app) => {
     '/api/auth/registration',
     userController.registration
   );
-  app.post(
+
+  app.put(
     '/api/auth/confirm/:code',
     userController.confirmUser
   );
