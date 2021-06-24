@@ -12,8 +12,9 @@ module.exports = {
         priority: req.body.priority,
         dueDate: req.body.dueDate,
         isDone: false,
+        owner: req.body.ownerEmail,
       })
-      .then((taks) => res.status(201).send(taks.id))
+      .then((task) => res.status(201).send(task))
       .catch((error) => {
         res.status(400).send(error);
       });
