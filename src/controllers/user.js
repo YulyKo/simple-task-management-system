@@ -70,6 +70,7 @@ module.exports = {
           username: user.username,
           email: user.email,
           accessToken: getToken(user.email),
+          confirmed: user.confirmed,
         });
     })
     .catch(error => res.status(500).send(error.message));
