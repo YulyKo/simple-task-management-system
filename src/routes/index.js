@@ -58,7 +58,15 @@ module.exports = (app) => {
   app.put(
     '/api/tasks/changeover/:taskId',
     [verifyToken],
-    taskController.changeoverTask);
+    taskController.changeoverTask
+  );
+
+  // doesn't work
+  app.put(
+    '/api/tasks/changeover-all',
+    [verifyToken],
+    taskController.changeoverTasks
+  );
 
   app.delete(
     '/api/tasks/:taskId',

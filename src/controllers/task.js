@@ -76,4 +76,19 @@ module.exports = {
       .then((returning) => res.status(200).send(returning[1][0]))
       .catch((error) => { res.status(400).send(error); });
   },
+
+  changeoverTasks(req, res) {
+    // it must to work, but return 200 at Postmen and 500 by client request
+    // message: TypeError: Class constructor Sequelize cannot be invoked without 'new'
+    return db.tasks
+      .update({
+          isDone: req.body.status,
+        },
+        { where: { owner: getOwnerEmail(req) }
+      })
+      .then((returning) => res.status(200).send(returning))
+      .catch((error) => { res.status(400).send(error); });
+  },
+
+
 };
