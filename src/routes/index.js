@@ -60,6 +60,11 @@ module.exports = (app) => {
     [verifyToken],
     taskController.changeoverTask);
 
+  app.put(
+    '/api/tasks/changeover',
+    [verifyToken],
+    taskController.markUnmarkAll);
+
   app.delete(
     '/api/tasks/:taskId',
     [verifyToken],

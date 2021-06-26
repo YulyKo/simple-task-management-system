@@ -18,9 +18,7 @@ module.exports = {
         owner: req.body.ownerEmail,
       })
       .then((task) => res.status(201).send(task))
-      .catch((error) => {
-        res.status(400).send(error);
-      });
+      .catch((error) => res.status(400).send(error));
   },
 
   getAll(req, res) {
@@ -47,7 +45,7 @@ module.exports = {
         plain: true,
         })
       .then((returned) => res.status(200).send(returned[1]))
-      .catch((error) => { res.status(400).send(error); });
+      .catch((error) => res.status(400).send(error));
   },
 
   delete(req, res) {
@@ -74,6 +72,19 @@ module.exports = {
         returning: true,
       })
       .then((returning) => res.status(200).send(returning[1][0]))
-      .catch((error) => { res.status(400).send(error); });
+      .catch((error) => res.status(400).send(error));
+  },
+
+  markUnmarkAll(req, res) {
+    return db.tasks
+      .update(
+        { isDone: req.body.taskStatus },
+        { where: {
+            owner: getOwnerEmail(req),
+          },
+        }
+      )
+      .then(() => res.status(200))
+      .catch((error) => res.status(400).send(error));
   },
 };
