@@ -25,7 +25,7 @@ function getToken(email) {
   config.secret;
 
   // set token
-  token = jwt.sign({ email: email }, secret , { expiresIn: 86400  });
+  token = jwt.sign({ email: email }, secret , { expiresIn: '14d'  });
   return token;
 }
 
@@ -100,7 +100,7 @@ module.exports = {
         }
 
         // send new token
-        res.status(201).send({ accessToken: getToken(email) });
+        res.status(200).send({ accessToken: getToken(email) });
       })
       .catch((error) => res.status(500).send(error.mesage));
   },

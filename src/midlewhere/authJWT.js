@@ -6,7 +6,6 @@ const secret = env === 'production' ? process.env.SECRET : config.secret;
 
 const verifyToken = (req, res, next) => {
   let token = req.headers['authorization'].replace('Bearer ', '');
-  console.log(token);
   if (!token) {
     return res.status(403).send({
       message: 'No token provided!'
